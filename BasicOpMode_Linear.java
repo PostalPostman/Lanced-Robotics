@@ -59,6 +59,7 @@ public class BasicOpMode_Linear extends LinearOpMode {
     private DcMotor motorOne = null;
     private DcMotor motorTwo = null;
     private DcMotor leverMotor= null;
+    private DcMotor clawMotor= null;
 
     @Override
     public void
@@ -71,7 +72,8 @@ public class BasicOpMode_Linear extends LinearOpMode {
         // step (using the FTC Robot Controller app on the phone).
         motorOne = hardwareMap.get(DcMotor.class, "motorOne");
         motorTwo  = hardwareMap.get(DcMotor.class, "motorTwo");
-        leverMotor = hardwareMap.get(DcMotor.class, "clawMotor");
+        leverMotor = hardwareMap.get(DcMotor.class, "LeverMotor");
+        clawMotor= hardwareMap.get(DcMotor.class, "clawMotor");
 
         // Most robots need the motor on one side to be reversed to drive forward
         // Reverse the motor that runs backwards when connected directly to the battery
@@ -91,6 +93,7 @@ public class BasicOpMode_Linear extends LinearOpMode {
             double leverPower=0;
             double leftBool= -(gamepad1.left_bumper ? 1.0 : 0.0);
             double rightBool= gamepad1.right_bumper? 1.0 : 0.0;
+            float  clawPower;
 
             // Choose to drive using either Tank Mode, or POV Mode
             // Comment out the method that's not used.  The default below is POV.
@@ -119,12 +122,13 @@ public class BasicOpMode_Linear extends LinearOpMode {
                     leverPower= leftBool;
                 }
             }
-
+            clawPower= gamepad1.right_trigger;
 
             // Send calculated power to wheels
             motorOne.setPower(rightPower);
             motorTwo.setPower(leftPower);
             leverMotor.setPower(leverPower);
+            clawMotor.setPower(clawPower);
 
             // Show the elapsed game time and wheel power.
             telemetry.addData("Status", "Run Time: " + runtime.toString());
@@ -133,4 +137,5 @@ public class BasicOpMode_Linear extends LinearOpMode {
         }
     }
 }
+
 
