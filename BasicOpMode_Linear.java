@@ -73,7 +73,7 @@ public class BasicOpMode_Linear extends LinearOpMode {
         motorOne = hardwareMap.get(DcMotor.class, "motorOne");
         motorTwo  = hardwareMap.get(DcMotor.class, "motorTwo");
         leverMotor = hardwareMap.get(DcMotor.class, "LeverMotor");
-        clawMotor= hardwareMap.get(DcMotor.class, "clawMotor");
+        /*clawMotor= hardwareMap.get(DcMotor.class, "clawMotor");*/
 
         // Most robots need the motor on one side to be reversed to drive forward
         // Reverse the motor that runs backwards when connected directly to the battery
@@ -90,10 +90,10 @@ public class BasicOpMode_Linear extends LinearOpMode {
             // Setup a variable for each drive wheel to save power level for telemetry
             double leftPower;
             double rightPower;
-            double leverPower=0;
+            double leverPower=0.0;
             double leftBool= -(gamepad1.left_bumper ? 1.0 : 0.0);
             double rightBool= gamepad1.right_bumper? 1.0 : 0.0;
-            float  clawPower;
+            float  clawPower = 0.0f;
 
             // Choose to drive using either Tank Mode, or POV Mode
             // Comment out the method that's not used.  The default below is POV.
@@ -107,7 +107,7 @@ public class BasicOpMode_Linear extends LinearOpMode {
 
             // Tank Mode uses one stick to control each wheel.
             // - This requires no math, but it is hard to drive forward slowly and keep straight.
-            leftPower  = 0.95*(gamepad1.left_stick_y) ;
+            leftPower  = 0.90*(gamepad1.left_stick_y) ;
             rightPower = -gamepad1.right_stick_y ;
             if (gamepad1.right_bumper) {
                 while(gamepad1.right_bumper)
@@ -122,13 +122,20 @@ public class BasicOpMode_Linear extends LinearOpMode {
                     leverPower= leftBool;
                 }
             }
-            clawPower= gamepad1.right_trigger;
-
+            /*
+            if (gamepad1.right_trigger!=0.0f)
+            {
+                clawPower= gamepad1.right_trigger;
+            }else if(gamepad1.left_trigger!=0.0f)
+            {
+                clawPower= gamepad1.left_trigger;
+            }
+            */
             // Send calculated power to wheels
             motorOne.setPower(rightPower);
             motorTwo.setPower(leftPower);
             leverMotor.setPower(leverPower);
-            clawMotor.setPower(clawPower);
+            /*clawMotor.setPower(clawPower);*/
 
             // Show the elapsed game time and wheel power.
             telemetry.addData("Status", "Run Time: " + runtime.toString());
@@ -137,5 +144,6 @@ public class BasicOpMode_Linear extends LinearOpMode {
         }
     }
 }
+
 
 
